@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="platform_tokopedia" model="platform">
+            <field name="name">Tokopedia</field>
+            <field name="code">tokopedia</field>
+            <field name="prefix">TKPD</field>
+            <field name="order_id">Nomor Invoice</field>
+            <field name="status">Status Terakhir</field>
+            <field name="date_order">Tanggal Pembayaran</field>
+            <field name="product_sku">Nomor SKU</field>
+            <field name="product_name">Nama Produk</field>
+            <field name="product_qty">Jumlah Produk Dibeli</field>
+            <field name="product_price">Harga Jual (IDR)</field>
+            <field name="shipping_price">Biaya Pengiriman Tunai (IDR)</field>
+            <field name="shipping_courier">Nama Kurir</field>
+            <field name="customer_phone">No Telp Pembeli</field>
+            <field name="customer_name">Nama Pembeli</field>
+            <field name="is_price_per_product">1</field>
+            <field name="date_format">%d-%m-%Y %H:%M:%S</field>
+            <field name="has_precision_price">0</field>
+        </record>
+        
+        <record id="platform_shopee" model="platform">
+            <field name="name">Shopee</field>
+            <field name="code">shopee</field>
+            <field name="prefix">SHOP</field>
+            <field name="order_id">No. Pesanan</field>
+            <field name="status">Status Pesanan</field>
+            <field name="date_order">Waktu Pesanan Dibuat</field>
+            <field name="product_sku">SKU Induk</field>
+            <field name="product_name">Nama Produk</field>
+            <field name="product_qty">Jumlah</field>
+            <field name="product_price">Harga Setelah Diskon</field>
+            <field name="shipping_price">Ongkos Kirim Dibayar oleh Pembeli</field>
+            <field name="shipping_courier">Opsi Pengiriman</field>
+            <field name="customer_phone">No. Telepon</field>
+            <field name="customer_name">Nama Penerima</field>
+            <field name="is_price_per_product">1</field>
+            <field name="date_format">%Y-%m-%d %H:%M</field>
+            <field name="has_precision_price">0</field>
+        </record>
+        
+        <record id="platform_bukalapak" model="platform">
+            <field name="name">Bukalapak</field>
+            <field name="code">bukalapak</field>
+            <field name="prefix">BUKA</field>
+            <field name="order_id">ID Transaksi</field>
+            <field name="status">Status</field>
+            <field name="date_order">Tanggal</field>
+            <field name="product_sku">SKU</field>
+            <field name="product_name">Nama Produk</field>
+            <field name="product_qty">Jumlah Produk</field>
+            <field name="product_price">Harga Produk</field>
+            <field name="shipping_price">Biaya Pengiriman</field>
+            <field name="shipping_courier">Kurir</field>
+            <field name="customer_phone">HP Pembeli</field>
+            <field name="customer_name">Pembeli</field>
+            <field name="is_price_per_product">0</field>
+            <field name="date_format">%Y-%m-%d %H:%M:%S %z</field>
+            <field name="has_precision_price">0</field>
+        </record>
+        
+        <record id="platform_lazada" model="platform">
+            <field name="name">Lazada</field>
+            <field name="code">lazada</field>
+            <field name="prefix">LAZ</field>
+            <field name="order_id">orderNumber</field>
+            <field name="status">status</field>
+            <field name="date_order">createTime</field>
+            <field name="product_sku">sellerSku</field>
+            <field name="product_name">itemName</field>
+            <field name="product_qty"></field>
+            <field name="product_price">unitPrice</field>
+            <field name="is_shipping_price_per_product">1</field>
+            <field name="shipping_price">shippingFee</field>
+            <field name="shipping_courier">shippingProvider</field>
+            <field name="customer_phone">billingPhone</field>
+            <field name="customer_name">customerName</field>
+            <field name="is_price_per_product">1</field>
+            <field name="date_format">%d %b %Y %H:%M</field>
+            <field name="has_precision_price">1</field>
+            <field name="precision_symbol">.</field>
+        </record>
+    </data>
+    
+
+</odoo>

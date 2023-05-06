@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">marketplace.product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="is_need_converted"/>
+                <label for="qty_converted" attrs="{'invisible':[('is_need_converted','=',False)]}"/>
+                <div class="o_row" attrs="{'invisible':[('is_need_converted','=',False)]}">
+                    <field name="qty_converted"/>
+                    <span><field name="uom_name"/></span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="marketplace_access" model="ir.module.category">
+            <field name="name">Marketplace</field>
+        </record>
+        <record id="marketplace_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="ss_marketplace_import_order.marketplace_access" />
+        </record>
+        <record id="marketplace_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="ss_marketplace_import_order.marketplace_access" />
+            <field name="implied_ids" eval="[(4, ref('ss_marketplace_import_order.marketplace_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

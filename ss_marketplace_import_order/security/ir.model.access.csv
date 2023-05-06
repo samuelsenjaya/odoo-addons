@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_marketplace,access.marketplace,model_marketplace,ss_marketplace_import_order.marketplace_user,1,1,1,0
+access_platform_manager,access.platform,model_platform,ss_marketplace_import_order.marketplace_manager,1,1,1,0
+access_platform_user,access.platform,model_platform,ss_marketplace_import_order.marketplace_user,1,0,0,0
+access_shipping_auto_debit,access.shipping.auto.debit,model_shipping_auto_debit,ss_marketplace_import_order.marketplace_user,1,1,1,0

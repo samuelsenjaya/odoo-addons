@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="shipping_auto_debit_view_tree" model="ir.ui.view">
+        <field name="name">shipping.auto.debit.view.tree</field>
+        <field name="model">shipping.auto.debit</field>
+        <field name="arch" type="xml">
+            <tree string="Shipping Auto Debit">
+                <!-- <field name="platform" /> -->
+                <field name="platform_id" />
+                <field name="name" />
+                <field name="is_active" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="shipping_auto_debit_view_form" model="ir.ui.view">
+        <field name="name">shipping.auto.debit.view.form</field>
+        <field name="model">shipping.auto.debit</field>
+        <field name="arch" type="xml">
+            <form string="Shipping Auto Debit">
+                <sheet>
+                    <group>
+                        <field name="is_active" />
+                        <!-- <field name="platform" /> -->
+                        <field name="platform_id" />
+                        <field name="name" />
+                    </group>
+                </sheet>
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

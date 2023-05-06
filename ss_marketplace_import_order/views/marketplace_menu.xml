@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="marketplace_action" model="ir.actions.act_window">
+        <field name="name">Marketplace</field>
+        <field name="res_model">marketplace</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'default_sale_person_id' : uid}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Start Uploading</p>
+        </field>
+    </record>
+
+    <record id="platform_action" model="ir.actions.act_window">
+        <field name="name">Platform</field>
+        <field name="res_model">platform</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Start Create Platform</p>
+        </field>
+    </record>
+
+    <record id="shipping_auto_debit_action" model="ir.actions.act_window">
+        <field name="name">Shipping Auto Debit</field>
+        <field name="res_model">shipping.auto.debit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Add Shipping Courier for Marketplace</p>
+        </field>
+    </record>
+
+    <menuitem
+        id="marketplace"
+        name="Marketplace"
+        web_icon="ss_marketplace_import_order,static/description/icon.png"
+        sequence="10"/>
+    
+    <menuitem
+        id="marketplace_menu_root"
+        name="Marketplace"
+        parent="marketplace"
+        sequence="10"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+    
+    <menuitem
+        id="marketplace_menu"
+        name="Marketplace"
+        action="marketplace_action"
+        parent="marketplace_menu_root"
+        sequence="10"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+    
+    <menuitem
+        id="platform_menu"
+        name="Platform"
+        action="platform_action"
+        parent="marketplace_menu_root"
+        sequence="20"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_manager"/>
+
+
+    <menuitem
+        id="shipping_auto_debit_menu"
+        name="Shipping Auto Debit"
+        action="shipping_auto_debit_action"
+        parent="marketplace"
+        sequence="20"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+
+    <menuitem
+        id="marketplace_config"
+        name="General Settings"
+        parent="marketplace"
+        sequence="100"
+        action="action_marketplace_general_settings"
+        groups="base.group_system"/>
+
+</odoo>

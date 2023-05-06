@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!--Inherit the sale order form view--> 
+    <record id="view_sale_order_marketplace" model="ir.ui.view"> 
+        <field name="name">sale.order.custom.form.inherited</field>
+        <field name="model">sale.order</field> 
+        <field name="inherit_id" ref="sale.view_order_form"/> 
+        <field name="arch" type="xml"> 
+            <xpath expr="//field[@name='tag_ids']" position="after"> 
+                <field name="marketplace_order_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
+                <field name="marketplace_import_order_id" />
+                <field name="marketplace_order_status" />
+            </xpath> 
+        </field> 
+    </record>
+
+    <record id="view_order_tree_marketplace" model="ir.ui.view">
+        <field name="name">sale.order.tree.marketplace</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
+                <field name="marketplace_order_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                <field name="marketplace_order_status" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_marketplace" model="ir.ui.view">
+        <field name="name">sale.order.tree.marketplace</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
+                <field name="marketplace_order_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                <field name="marketplace_order_status" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_picking_form_marketplace" model="ir.ui.view">
+        <field name="name">stock.picking.form.marketplace</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="marketplace_platform" />
+                <field name="marketplace_order_id" />
+                <field name="marketplace_order_status" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vpicktree_marketplace" model="ir.ui.view">
+        <field name="name">stock.picking.tree.marketplace</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="marketplace_platform" />
+                <field name="marketplace_order_id" />
+                <field name="marketplace_order_status" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
