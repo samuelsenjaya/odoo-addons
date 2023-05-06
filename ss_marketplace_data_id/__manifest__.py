@@ -8,6 +8,7 @@
     'data': [
         'data/platform_data.xml',
     ],
+    'images': ['static/description/icon.png'],
     'application': False,
     'license': 'LGPL-3',
 }
