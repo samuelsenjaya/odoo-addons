@@ -11,6 +11,7 @@ class Platform(models.Model):
     name = fields.Char('Name', track_visibility='onchange')
     code = fields.Char('Code', track_visibility='onchange')
     prefix = fields.Char('Prefix', track_visibility='onchange')
+    # warehouse_id = fields.Many2one('stock.warehouse', 'Warehouse', track_visibility='onchange')
     
     order_id = fields.Char('Order Id', track_visibility='onchange')
     status = fields.Char('Status', track_visibility='onchange')
@@ -23,12 +24,13 @@ class Platform(models.Model):
     shipping_courier = fields.Char('Shipping Courier', track_visibility='onchange')
     customer_phone = fields.Char('Customer Phone', track_visibility='onchange')
     customer_name = fields.Char('Customer Name', track_visibility='onchange')
-    is_price_per_product = fields.Boolean('Is Price per Product', default=True, track_visibility='onchange', help="Some marketplace not using price for 1 product, please check your excel on price column. if the price column is the total of product price and its quantity, please unchecked this. But if the price is the price for only 1 qty so please checked this.")
-    date_format = fields.Char('Date Format', track_visibility='onchange', help="Please check the time format on your excel, and take a look on the 'Time Format' table list on the bottom of this page.")
-    has_precision_price = fields.Boolean('Has Precision for Price?', track_visibility='onchange', help="Some marketplace using precision on their excel, so please check on your excel. If using precision please checked this, and if not unchecked it.")
-    precision_symbol = fields.Char('Precision Symbol', track_visibility='onchange', help="Some country using '.' as precision, and some using ','. Please check it form your excel.")
-    is_shipping_price_per_product = fields.Boolean('Is Shippping Price per Product', default=False, track_visibility='onchange', help="Some marketplace using shipping price for each product, and some using the total of shipping price per 1 order. So please check carefully on your excel.")
-    income_account = fields.Many2one('account.account', string='Income Account', domain=[('user_type_id', '=', 13)], track_visibility='onchange', help="If you want to customize the accounting for each marketplace order with different account, you can create new account and select it. If empty, it will use the same account as the sales account")
+    is_price_per_product = fields.Boolean('Is Price per Product', default=True, track_visibility='onchange')
+    date_format = fields.Char('Date Format', track_visibility='onchange')
+    has_precision_price = fields.Boolean('Has Precision for Price?', track_visibility='onchange')
+    precision_symbol = fields.Char('Precision Symbol', track_visibility='onchange')
+    is_shipping_price_per_product = fields.Boolean('Is Shippping Price per Product', default=False, track_visibility='onchange')
+    income_account = fields.Many2one('account.account', string='Income Account', domain=[('user_type_id', '=', 13)], track_visibility='onchange')
+    tracking_number = fields.Char('Tracking Number', track_visibility='onchange')
 
     @api.model
     def create(self, vals):
@@ -52,6 +54,14 @@ class Platform(models.Model):
 
         res = super(Platform, self).write(vals)
 
+    # def name_get(self):
+    #     result = []
+
+    #     for rec in self:
+    #         result.append((rec.id, '%s - %s'  %(rec.name, rec.warehouse_id.name)))
+
+    #     return result
+
     def unlink(self):
         sequence = self.env['ir.sequence'].search([('code', '=', self.code)])
         sequence.unlink()
@@ -67,9 +77,9 @@ class Platform(models.Model):
                 transaction_data = marketplace_model.convert_data_to_dict(sheet._cell_values)
                 order_data = []
                 for data in transaction_data:
-                    if not self.env['marketplace'].is_order_cancelled(self.status) :
-                        order_data.append(self._mapped_data(data))
-                        marketplace_model.create_order(order_data[-1], self)
+                    # if not self.env['marketplace'].is_order_cancelled(data[self.status]) :
+                    order_data.append(self._mapped_data(data))
+                    marketplace_model.create_order(order_data[-1], self)
                 
                 marketplace_model.confirm_all_imported_order(order_data)
                 return True #assuming always use first sheet only
@@ -103,6 +113,7 @@ class Platform(models.Model):
         order_data['shipping_courier'] = data[self.shipping_courier] if self.shipping_courier in data.keys() else ''
         order_data['customer_phone'] = data[self.customer_phone] if self.customer_phone in data.keys() else ''
         order_data['customer_name'] = data[self.customer_name] if self.customer_name in data.keys() else ''
+        order_data['tracking_number'] = data[self.tracking_number] if self.tracking_number in data.keys() else ''
 
         return order_data
     

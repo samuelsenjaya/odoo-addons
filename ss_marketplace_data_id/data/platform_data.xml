@@ -21,6 +21,7 @@
             <field name="is_price_per_product">1</field>
             <field name="date_format">%d-%m-%Y %H:%M:%S</field>
             <field name="has_precision_price">0</field>
+            <field name="tracking_number">No Resi / Kode Booking</field>
         </record>
         
         <record id="platform_shopee" model="platform">
@@ -30,7 +31,7 @@
             <field name="order_id">No. Pesanan</field>
             <field name="status">Status Pesanan</field>
             <field name="date_order">Waktu Pesanan Dibuat</field>
-            <field name="product_sku">SKU Induk</field>
+            <field name="product_sku">Nomor Referensi SKU</field>
             <field name="product_name">Nama Produk</field>
             <field name="product_qty">Jumlah</field>
             <field name="product_price">Harga Setelah Diskon</field>
@@ -41,6 +42,7 @@
             <field name="is_price_per_product">1</field>
             <field name="date_format">%Y-%m-%d %H:%M</field>
             <field name="has_precision_price">0</field>
+            <field name="tracking_number">No. Resi</field>
         </record>
         
         <record id="platform_bukalapak" model="platform">
@@ -61,6 +63,7 @@
             <field name="is_price_per_product">0</field>
             <field name="date_format">%Y-%m-%d %H:%M:%S %z</field>
             <field name="has_precision_price">0</field>
+            <field name="tracking_number">Kode Tracking</field>
         </record>
         
         <record id="platform_lazada" model="platform">
@@ -83,6 +86,7 @@
             <field name="date_format">%d %b %Y %H:%M</field>
             <field name="has_precision_price">1</field>
             <field name="precision_symbol">.</field>
+            <field name="tracking_number">trackingCode</field>
         </record>
     </data>
     

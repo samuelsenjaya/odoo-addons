@@ -6,7 +6,10 @@
     'author': 'Samuel Senjaya Hirawan',
     'depends': ['base', 'ss_marketplace_import_order'],
     'data': [
+        'data/marketplace_courier_data.xml',
         'data/platform_data.xml',
+        'data/sequence.xml',
+
     ],
     'images': ['static/description/icon.png'],
     'application': False,

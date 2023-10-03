@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="platform_view_tree" model="ir.ui.view">
+        <field name="name">platform.view.tree</field>
+        <field name="model">platform</field>
+        <field name="arch" type="xml">
+            <tree string="Platform">
+                <field name="name" />
+                <field name="code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="platform_view_form" model="ir.ui.view">
+        <field name="name">platform.view.form</field>
+        <field name="model">platform</field>
+        <field name="arch" type="xml">
+            <form string="Platform">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <!-- <field name="warehouse_id" /> -->
+                        </group>
+                        <group>
+                            <field name="code" />
+                            <field name="prefix" />
+                        </group>
+                    </group>
+                    <group string="Mapped Data">
+                        <group>
+                            <field name="order_id" />
+                            <field name="status" />
+                            <field name="date_order" /> 
+                            <field name="date_format" />
+                            <field name="product_sku" />
+                            <field name="product_name" />
+                            <field name="product_qty" />
+                            <field name="customer_phone" />
+                            <field name="customer_name" />
+                        </group>
+                        <group>
+                            <field name="is_price_per_product" />
+                            <field name="has_precision_price" />
+                            <field name="precision_symbol" attrs="{'invisible': [('has_precision_price', '=', False)]}" />
+                            <field name="product_price" />
+                            <field name="is_shipping_price_per_product" />
+                            <field name="shipping_price" />
+                            <field name="shipping_courier" />
+                            <field name="tracking_number" />
+                            <!-- <field name="income_account" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" /> -->
+                        </group>
+                    </group>
+                    <group name="timeformat" string="Time Format">
+                        <div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th>Directive or format code</th>
+                                    <th>Returned Value</th>
+                                    <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>%Y</td>
+                                        <td>Full year with century</td>
+                                        <td>2021,2022</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%y</td>
+                                        <td>Year without century with zero padded value</td>
+                                        <td>00,01,….21,22…,99</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-y</td>
+                                        <td>Year without century</td>
+                                        <td>0,1…,99</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%m</td>
+                                        <td>Month with zero padded value</td>
+                                        <td>01-12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-m</td>
+                                        <td>Month without zero padded value</td>
+                                        <td>1-12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%B</td>
+                                        <td>Full month name</td>
+                                        <td>January, February,…, December</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%b</td>
+                                        <td>Short form of month</td>
+                                        <td>Jan, Feb,…,Dec</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%A</td>
+                                        <td>Full weekday name</td>
+                                        <td>Sunday, Monday,..</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%a</td>
+                                        <td>Short form of weekday name</td>
+                                        <td>Sun, Mon,..</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%w</td>
+                                        <td>Weekday as decimal value</td>
+                                        <td>0-6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%d</td>
+                                        <td>Days with zero padded value</td>
+                                        <td>01-31</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-d</td>
+                                        <td>Days with decimal value</td>
+                                        <td>1-31</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%H</td>
+                                        <td>Hour (24-hour clock) as a zero-padded value.</td>
+                                        <td>00-23</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-H</td>
+                                        <td>Hour (24-hour clock) without zero-padded value.</td>
+                                        <td>0,1,…,23</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%I</td>
+                                        <td>Hour (12-hour clock) as a zero-padded value.</td>
+                                        <td>01-12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-I</td>
+                                        <td>Hour (12-hour clock) without zero-padded value.</td>
+                                        <td>1-12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%M</td>
+                                        <td>Mins with zero-padded</td>
+                                        <td>00-59</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-M</td>
+                                        <td>Mins without zero padded value</td>
+                                        <td>0-59</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%S</td>
+                                        <td>Secs with zero padded value</td>
+                                        <td>00-59</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-S</td>
+                                        <td>Secs without zero padded value</td>
+                                        <td>0-59</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%f</td>
+                                        <td>Micro Secs with zero-padded value</td>
+                                        <td>000000 – 999999</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%p</td>
+                                        <td>Locale’s AM or PM</td>
+                                        <td>AM/PM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%j</td>
+                                        <td>Day of the year with zero padded value</td>
+                                        <td>001-366</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%-j</td>
+                                        <td>Day of the year without zero padded value</td>
+                                        <td>1-366</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%z</td>
+                                        <td>UTC offset in the form +HHMM or -HHMM</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>%Z</td>
+                                        <td>Time zone name</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>%C</td>
+                                        <td>Locale’s appropriate date and time</td>
+                                        <td>Fri Apr 02 02:09:07 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%x</td>
+                                        <td>Locale’s appropriate date</td>
+                                        <td>02/04/22</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%X</td>
+                                        <td>Locale’s appropriate time</td>
+                                        <td>02:04:22</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%W</td>
+                                        <td>Week number of the year. Monday as first day of week</td>
+                                        <td>00-53</td>
+                                    </tr>
+                                    <tr>
+                                        <td>%U</td>
+                                        <td>Week number of the year. Sunday as first day of week</td>
+                                        <td>00-53</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </group>
+                </sheet>
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

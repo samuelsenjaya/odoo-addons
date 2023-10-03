@@ -23,6 +23,17 @@
         </field>
     </record>
 
+    <record id="platform_account_action" model="ir.actions.act_window">
+        <field name="name">Platform Account</field>
+        <field name="res_model">platform.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Start Create Platform Account</p>
+        </field>
+    </record>
+
     <record id="shipping_auto_debit_action" model="ir.actions.act_window">
         <field name="name">Shipping Auto Debit</field>
         <field name="res_model">shipping.auto.debit</field>
@@ -34,10 +45,32 @@
         </field>
     </record>
 
+    <record id="marketplace_delivery_action" model="ir.actions.act_window">
+        <field name="name">Marketplace Delivery</field>
+        <field name="res_model">marketplace.delivery</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Add Marketplace Delivery</p>
+        </field>
+    </record>
+
+    <record id="marketplace_courier_action" model="ir.actions.act_window">
+        <field name="name">Marketplace Courier</field>
+        <field name="res_model">marketplace.courier</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click Create to Add Marketplace Courier</p>
+        </field>
+    </record>
+
     <menuitem
         id="marketplace"
         name="Marketplace"
-        web_icon="ss_marketplace_import_order,static/description/icon.png"
+        web_icon="marketplace_import_order,static/description/icon.png"
         sequence="10"/>
     
     <menuitem
@@ -54,15 +87,38 @@
         parent="marketplace_menu_root"
         sequence="10"
         groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+        
+    <menuitem
+        id="marketplace_courier_menu"
+        name="Courier"
+        action="marketplace_courier_action"
+        parent="marketplace_menu_root"
+        sequence="20"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+        
+    <menuitem
+        id="marketplace_delivery_menu"
+        name="Delivery"
+        action="marketplace_delivery_action"
+        parent="marketplace_menu_root"
+        sequence="30"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
     
     <menuitem
         id="platform_menu"
         name="Platform"
         action="platform_action"
         parent="marketplace_menu_root"
-        sequence="20"
+        sequence="30"
         groups="base.group_system,ss_marketplace_import_order.marketplace_manager"/>
-
+    
+    <menuitem
+        id="platform_account_menu"
+        name="Platform Account"
+        action="platform_account_action"
+        parent="marketplace_menu_root"
+        sequence="40"
+        groups="base.group_system,ss_marketplace_import_order.marketplace_manager"/>
 
     <menuitem
         id="shipping_auto_debit_menu"
@@ -71,6 +127,7 @@
         parent="marketplace"
         sequence="20"
         groups="base.group_system,ss_marketplace_import_order.marketplace_user"/>
+
 
     <menuitem
         id="marketplace_config"

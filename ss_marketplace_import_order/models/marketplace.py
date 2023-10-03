@@ -62,11 +62,11 @@ class Marketplace(models.Model):
     order_file = fields.Binary(string="Order File", required=True, track_visibility='onchange')
     order_file_name = fields.Char('Order File Name', track_visibility='onchange')
     platform = fields.Selection(MARKETPLACE, string="Platform", track_visibility='onchange')
-    platform_id = fields.Many2one('platform', string="Platform", track_visibility='onchange')
+    platform_id = fields.Many2one('platform', required=True, string="Platform", track_visibility='onchange')
     state = fields.Selection(STATUS, readonly=True, string="State", default="draft",track_visibility='onchange')
     sale_person_id = fields.Many2one('res.users', string='Salesperson', track_visibility='onchange')
     team_id = fields.Many2one('crm.team', string='Sales Team', track_visibility='onchange')
-    source_warehouse = fields.Many2one('stock.warehouse', 'Warehouse', default=_default_warehouse, track_visibility='onchange')
+    source_warehouse = fields.Many2one('stock.warehouse', 'Warehouse', required=True, default=_default_warehouse, track_visibility='onchange')
     delivery_count = fields.Integer(string='Delivery Orders', compute='_compute_picking_count')
     order_count = fields.Integer(string="Orders", compute='_compute_order_count')
     invoice_count = fields.Integer(string="Invoices", compute="_compute_invoice_count")
@@ -164,6 +164,7 @@ class Marketplace(models.Model):
             
             if order_count:
                 self.state = 'imported'
+                # raise ValidationError(u'No Order created for this file, please check it again and make sure the file is include new order in it' )
 
     
     def convert_data_to_dict(self, data):
@@ -178,21 +179,30 @@ class Marketplace(models.Model):
             transaction_data.append(transaction_dict)
         return transaction_data        
                 
-    def confirm_all_imported_order(self, order_data):           
+    def confirm_all_imported_order(self, order_data):
         marketplace_order_ids = self._get_all_marketplace_order_id(order_data)
 
-        for marketplace_order_id in list(dict.fromkeys(marketplace_order_ids)):
-            sale_order = self.env['sale.order'].search([('marketplace_order_id', '=', marketplace_order_id)])
-            date_order = sale_order.date_order
-
-            if (len(sale_order) == 1):
-                sale_order.action_confirm()
-                sale_order.date_order = date_order
-                self._create_invoice(sale_order)
-            elif (len(sale_order) > 1):
-                sale_order_ids = ", ".join(sale_order.ids)
-                raise ValidationError(u'Cannot Confirm ORDER! \nDuplicate Marketplace Order ID from Sale Order ID: ' + sale_order_ids )
-            else: raise ValidationError(u"Cannot Confirm ORDER! \nNo Order with Marketplace Order ID: " + marketplace_order_id)
+        # for marketplace_order_id in list(dict.fromkeys(marketplace_order_ids)):
+        for data in order_data:
+            if 'order_id' in data:
+                marketplace_order_id = data['order_id']
+                marketplace_status = data['status']
+                sale_order = self.env['sale.order'].search([('marketplace_order_id', '=', marketplace_order_id)])
+                date_order = sale_order.date_order
+                if not self.is_order_cancelled(marketplace_status):
+                    if (len(sale_order) == 1):
+                        sale_order.action_confirm()
+                        sale_order.date_order = date_order
+                        self._create_invoice(sale_order)
+                    elif (len(sale_order) > 1):
+                        sale_order_ids = ", ".join(sale_order.ids)
+                        raise ValidationError(u'Cannot Confirm ORDER! \nDuplicate Marketplace Order ID from Sale Order ID: ' + sale_order_ids )
+                    else: raise ValidationError(u"Cannot Confirm ORDER! \nNo Order with Marketplace Order ID: " + marketplace_order_id)
+                else:
+                    invoices = sale_order.invoice_ids
+                    for invoice in invoices:
+                        invoice.button_draft()
+                        invoice.button_cancel()
             
 
     def _create_invoice(self, sale_order):
@@ -229,7 +239,7 @@ class Marketplace(models.Model):
         return sku
 
     def _get_order_by_data_order(self, data):
-        return self.env['sale.order'].search([('marketplace_order_id', '=', data['order_id'])])
+        return self.env['sale.order'].search([('marketplace_order_id', '=', data['order_id']), ('state', 'not in', ['cancel'])])
 
     def is_order_cancelled(self, status):
         status = status.lower()
@@ -254,10 +264,7 @@ class Marketplace(models.Model):
                     })
                 ]
             elif sale_order.id and platform.is_shipping_price_per_product:
-                print('masuk elif')
                 for line in sale_order.order_line:
-                    print('line.product_id: ',line.product_id)
-                    print('shipping_product: ',shipping_product)
                     if line.product_id == shipping_product:
                         line.price_unit += float(shipping_price)
     
@@ -269,10 +276,13 @@ class Marketplace(models.Model):
         :param dicts data: data from excel will be store in dictionary
         :param model platform
         """
-
-        # for data in transaction_data:
         sale_order = self._get_order_by_data_order(data)
         product = self.env['product.template'].search([('default_code', '=', self._trim_sku(data['product_sku']))], limit=1)
+        
+        #skip if status 'batal' or 'dikembalikan' 
+        if not sale_order.id and self.is_order_cancelled(data['status']):
+            return
+        
         partner = self.get_partner(data)
         date_order = data['date_order']
         if (isinstance(date_order, datetime)):
@@ -302,20 +312,24 @@ class Marketplace(models.Model):
                 })
             ]
             if sale_order.id :
-                if sale_order.state in ['done', 'sale']:
+                if self.is_order_cancelled(data['status']):
+                    sale_order.with_context({'disable_cancel_warning': True}).action_cancel()
                     sale_order.marketplace_order_status = data['status']
-                elif sale_order.state == 'draft':
-                    product_exists = False
-                    for line in sale_order.order_line:
-                        if product_id == line.product_id.id:
-                            line.product_uom_qty += product_qty
-                            product_exists = True
+                else :
+                    if sale_order.state in ['done', 'sale']:
+                        sale_order.marketplace_order_status = data['status']
+                    elif sale_order.state == 'draft':
+                        product_exists = False
+                        for line in sale_order.order_line:
+                            if product_id == line.product_id.id:
+                                line.product_uom_qty += product_qty
+                                product_exists = True
 
-                    if not product_exists:
-                        sale_order.write({
-                            'order_line': order_line
-                        })
-            elif not (sale_order) :
+                        if not product_exists:
+                            sale_order.write({
+                                'order_line': order_line
+                            })
+            elif not (sale_order) and not self.is_order_cancelled(data['status']) :
                 sale_order.create({
                     'partner_id': partner.id,
                     'date_order': date_order,
@@ -327,10 +341,12 @@ class Marketplace(models.Model):
                     'order_line': order_line,
                     'marketplace_import_order_id': self.id,
                     'warehouse_id': self.source_warehouse.id,
-                    'marketplace_order_status': data['status']
+                    'marketplace_order_status': data['status'],
+                    'marketplace_tracking_number': data['tracking_number'],
+                    'marketplace_courier': data['shipping_courier']
                 })
-            else: 
-                raise ValidationError(u"This file had been imported! Please make sure the file is correct.")
+            # else: 
+            #     raise ValidationError(u"This file had been imported! Please make sure the file is correct.")
 
         else:
             raise ValidationError(u"Cannot Create Order! \nThere is no product on system with SKU: " + data['product_sku'])
@@ -358,6 +374,7 @@ class ResPartner(models.Model):
 
     mobile = fields.Char('Mobile')
     _sql_constraints = [('mobile_uniq', 'unique(mobile)', 'Mobile phone must be different!')]
+
 class SalesOrder(models.Model):
     _inherit = "sale.order"
     
@@ -366,6 +383,8 @@ class SalesOrder(models.Model):
     marketplace_platform = fields.Many2one('platform', 'Platform', track_visibility='onchange')
     marketplace_import_order_id = fields.Many2one('marketplace', 'Marketplace Import Order',  readonly=True,track_visibility='onchange')
     marketplace_order_status = fields.Char('Marketplace Status', readonly=True, track_visibility='onchange')
+    marketplace_tracking_number = fields.Char('Marketplace Tracking Number', readonly=True, track_visibility='onchange')
+    marketplace_courier = fields.Char('Marketplace Courier', readonly=True, track_visibility='onchange')
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
@@ -375,3 +394,5 @@ class StockPicking(models.Model):
     marketplace_platform = fields.Many2one('platform', 'Platform', related='sale_id.marketplace_platform', readonly=True, track_visibility='onchange')
     marketplace_import_order_id = fields.Many2one(related="sale_id.marketplace_import_order_id", readonly=True, track_visibility='onchange')
     marketplace_order_status = fields.Char(related='sale_id.marketplace_order_status', readonly=True, track_visibility='onchange')
+    marketplace_tracking_number = fields.Char(related='sale_id.marketplace_tracking_number', readonly=True, track_visibility='onchange')
+    marketplace_courier = fields.Char(related='sale_id.marketplace_courier', readonly=True, track_visibility='onchange')

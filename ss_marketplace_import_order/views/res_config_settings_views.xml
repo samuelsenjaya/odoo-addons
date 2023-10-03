@@ -9,7 +9,7 @@
             <field name="inherit_id" ref="base.res_config_settings_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="Marketplace" string="Marketplace" data-key="ss_marketplace_import_order" groups="ss_marketplace_import_order.marketplace_user">
+                    <div class="app_settings_block" data-string="Marketplace" string="Marketplace" data-key="marketplace_import_order" groups="ss_marketplace_import_order.marketplace_user">
                         <h2>Import Order</h2>
                         <div class="row mt16 o_settings_container">
                             <div class="col-xs-12 col-md-6 o_setting_box">
@@ -30,6 +30,31 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- <h2>Income Account</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Income Account</span>
+                                    <div class="text-muted">
+                                        Configuration for Income Account of Marketplace
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label string="Income Account Tokopedia" for="income_account_tokopedia" class="col-lg-3 o_light_label"/>
+                                            <field name="income_account_tokopedia" options="{'no_open': True, 'no_create': True}"/>
+                                        </div>
+                                         <div class="row mt16">
+                                            <label string="Income Account Shopee" for="income_account_shopee" class="col-lg-3 o_light_label"/>
+                                            <field name="income_account_shopee" options="{'no_open': True, 'no_create': True}"/>
+                                        </div>
+                                         <div class="row mt16">
+                                            <label string="Income Account Bukalapak" for="income_account_bukalapak" class="col-lg-3 o_light_label"/>
+                                            <field name="income_account_bukalapak" options="{'no_open': True, 'no_create': True}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </xpath>
             </field>
@@ -41,7 +66,7 @@
             <field name="res_model">res.config.settings</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
-            <field name="context">{'module' : 'ss_marketplace_import_order'}</field>
+            <field name="context">{'module' : 'marketplace_import_order'}</field>
         </record>
 
     </data>

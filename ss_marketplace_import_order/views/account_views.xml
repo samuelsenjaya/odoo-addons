@@ -30,4 +30,16 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_account_invoice_filter_inherit_marketplace" model="ir.ui.view">
+        <field name="name">account.invoice.select.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="marketplace_order_id" />
+                <field name="marketplace_order_status" />
+            </field>
+        </field>
+    </record>
 </odoo>

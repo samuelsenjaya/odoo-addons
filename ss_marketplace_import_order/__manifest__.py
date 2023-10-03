@@ -2,15 +2,21 @@
     'name': 'Marketplace Import Order',
     'version': '1.0.0',
     'summary': "Import to odoo's sales order from marketplace",
-    'description': "You can import from your marketplace platform to odoo as long as your marketplace platform can export the order as excel",
+    'description': "Import to odoo's sales order from marketplace",
     'author': 'Samuel Senjaya Hirawan',
     'depends': ['base', 'sale_management', 'sale_stock', 'stock', 'mail', 'delivery'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+
+        'report/sale_report_views.xml',
+        
         'views/marketplace.xml',
+        'views/platform_views.xml',
+        'views/platform_account_views.xml',
         'views/sale_order.xml',
         'views/res_config_settings_views.xml',
+        'views/marketplace_delivery.xml',
         'views/marketplace_menu.xml',
         'views/stock_picking_views.xml',
         'views/product.xml',

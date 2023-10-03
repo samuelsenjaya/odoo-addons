@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="marketplace_delivery_view_tree" model="ir.ui.view">
+        <field name="name">marketplace.delivery.view.tree</field>
+        <field name="model">marketplace.delivery</field>
+        <field name="arch" type="xml">
+            <tree string="Marketplace Delivery">
+                <field name="name" />
+                <field name="create_date" />
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'waiting'" decoration-info="state == 'ready'" decoration-muted="state == 'draft'" />
+            </tree>
+        </field>
+    </record>
+    
+    <record id="marketplace_delivery_view_form" model="ir.ui.view">
+        <field name="name">marketplace.delivery.view.form</field>
+        <field name="model">marketplace.delivery</field>
+        <field name="arch" type="xml">
+            <form string="Marketplace">
+                <header>
+                    <button string="Validate" name="action_validate" type="object" class="oe_highlight" attrs="{'invisible': [('state','in', ['done', 'waiting', 'draft'])]}" confirm="Are you sure to validate all the picking?" />
+                    <button string="Check Availability" name="action_assign" type="object" class="oe_highlight" attrs="{'invisible': [('state','in', ['done', 'ready', 'draft'])]}" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="float-left">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="create_date" />
+                            <field name="order_count" readonly="1" force_save="1" />
+                            <field name="product_count" readonly="1" force_save="1" />
+                            <field name="courier_per_marketplace" nolabel="1" readonly="1" force_save="1" />
+                        </group>
+                        <group>
+                            <field name="marketplace_courier_count" mode="tree" nolabel="1" readonly="1" force_save="1">
+                                <tree>
+                                    <field name="courier_name" />
+                                    <field name="courier_count" />
+                                    <field name="marketplace_delivery_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="line_ids" string="Line">
+                            <field name="line_ids"  mode="tree" nolabel="1" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}" >
+                                <tree editable="bottom">
+                                    <field name="marketplace_tracking_number" />
+                                    <field name="marketplace_courier" />
+                                    <field name="sale_id" string="Order / Marketplace Order Id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" />
+                                    <field name="picking_id" options="{'no_create_edit': True, 'no_create': True}" readonly='1' force_save="1" />
+                                    <field name="picking_status" widget="badge" decoration-success="picking_status == 'done'" decoration-warning="picking_status in ('confirmed', 'waiting')" decoration-info="picking_status in ('assigned')" decoration-muted="picking_status == 'draft'" />
+                                    <field name="products_availability_state" invisible="1"/>
+                                    <field name="products_availability"  decoration-success="products_availability_state == 'available'" decoration-warning="picking_status != 'assigned' and products_availability_state in ('expected', 'available')" decoration-danger="products_availability_state == 'late'"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Chatter -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <record id="marketplace_courier_view_form" model="ir.ui.view">
+        <field name="name">marketplace_courier.view.form</field>
+        <field name="model">marketplace.courier</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="marketplace_courier_view_tree" model="ir.ui.view">
+        <field name="name">marketplace_courier.view.tree</field>
+        <field name="model">marketplace.courier</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

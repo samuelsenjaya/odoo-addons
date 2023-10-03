@@ -12,6 +12,7 @@
                 <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
                 <field name="marketplace_import_order_id" />
                 <field name="marketplace_order_status" />
+                <field name="marketplace_tracking_number" />
             </xpath> 
         </field> 
     </record>
@@ -25,6 +26,7 @@
                 <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
                 <field name="marketplace_order_id" attrs="{'readonly':[('state','!=','draft')]}" />
                 <field name="marketplace_order_status" />
+                <field name="marketplace_tracking_number" />
             </xpath>
         </field>
     </record>
@@ -38,7 +40,20 @@
                 <field name="marketplace_platform" attrs="{'readonly':[('state','!=','draft')]}" />
                 <field name="marketplace_order_id" attrs="{'readonly':[('state','!=','draft')]}" />
                 <field name="marketplace_order_status" />
+                <field name="marketplace_tracking_number" />
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.select.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="marketplace_order_id" />
+                <field name="marketplace_order_status" />
+            </field>
         </field>
     </record>
 </odoo>

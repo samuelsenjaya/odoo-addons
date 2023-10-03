@@ -12,7 +12,6 @@
             <field name="name">Manager</field>
             <field name="category_id" ref="ss_marketplace_import_order.marketplace_access" />
             <field name="implied_ids" eval="[(4, ref('ss_marketplace_import_order.marketplace_user'))]"/>
-            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
     </data>
 </odoo>

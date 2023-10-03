@@ -36,6 +36,8 @@ class AccountMoveLine(models.Model):
                         marketplace_order_ids.append(marketplace_order_id)
                         marketplace_order_ids_status.append(marketplace_order_status)
 
+                    # if marketplace_name in MARKETPLACE_DICT.keys():
+                    # marketplace_name_val = marketplace_name
                     if (marketplace_name not in marketplace_names):
                         marketplace_names.append(marketplace_name)
 
@@ -72,6 +74,8 @@ class AccountMoveLine(models.Model):
                         marketplace_order_ids.append(marketplace_order_id)
                         marketplace_order_ids_status.append(marketplace_order_status)
 
+                    # if marketplace_name in MARKETPLACE_DICT.keys():
+                    # marketplace_name_val = MARKETPLACE_DICT[marketplace_name]
                     if (marketplace_name not in marketplace_names):
                         marketplace_names.append(marketplace_name)
 
@@ -86,16 +90,19 @@ class AccountMoveLine(models.Model):
             sale_order = self.sale_line_ids.mapped('order_id')
             # for future, need to know how to handle SO more than 1
             if len(sale_order):
+                marketplace = sale_order.marketplace_import_order_id
                 marketplace_platform = sale_order.marketplace_platform
-                # marketplace_type = sale_order.marketplace_name
                 delivery_xml_id = self.env.ref('delivery.product_category_deliveries').id 
                 categ_id = self.product_id.categ_id.id
                 
+                # remove condition is_marketplace 
                 # for manually create marketplace order
                 if marketplace_platform and categ_id != delivery_xml_id:
-                    income_account_id = marketplace_platform.income_account.id
+                    # income_account_id = marketplace_platform.income_account.id
+                    platform_account = self.env['platform.account'].search([('platform_id', '=', marketplace_platform.id), ('warehouse_id', '=', marketplace.source_warehouse.id)]) 
 
-                    if income_account_id:
+                    if platform_account:
+                        income_account_id = platform_account.income_account_id.id
                         account = self.env['account.account'].browse([int(income_account_id)])
                         return account
 

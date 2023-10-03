@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record id="instan" model="marketplace.courier">
+            <field name="name">Instan</field>
+        </record> 
+        <record id="shopee" model="marketplace.courier">
+            <field name="name">Shopee</field>
+        </record> 
+        <record id="jne" model="marketplace.courier">
+            <field name="name">Jne</field>
+        </record> 
+        <record id="j_and_t" model="marketplace.courier">
+            <field name="name">J&#38;T</field>
+        </record> 
+        <record id="si_cepat" model="marketplace.courier">
+            <field name="name">Si Cepat</field>
+        </record> 
+        <record id="wahana" model="marketplace.courier">
+            <field name="name">Wahana</field>
+        </record>  
+        <record id="pos" model="marketplace.courier">
+            <field name="name">Pos</field>
+        </record> 
+        <record id="rex" model="marketplace.courier">
+            <field name="name">Rex</field>
+        </record> 
+        <record id="anter_aja" model="marketplace.courier">
+            <field name="name">Anter Aja</field>
+        </record> 
+        <record id="ninja" model="marketplace.courier">
+            <field name="name">Ninja</field>
+        </record>
+        <record id="lion_parcel" model="marketplace.courier">
+            <field name="name">Lion Parcel</field>
+        </record>
+    
+    </data>
+    
+
+</odoo>

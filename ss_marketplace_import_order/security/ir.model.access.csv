@@ -2,4 +2,10 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_marketplace,access.marketplace,model_marketplace,ss_marketplace_import_order.marketplace_user,1,1,1,0
 access_platform_manager,access.platform,model_platform,ss_marketplace_import_order.marketplace_manager,1,1,1,0
 access_platform_user,access.platform,model_platform,ss_marketplace_import_order.marketplace_user,1,0,0,0
+access_platform_account_manager,access.platform.account,model_platform_account,ss_marketplace_import_order.marketplace_manager,1,1,1,0
+access_platform_account_user,access.platform.account,model_platform_account,ss_marketplace_import_order.marketplace_user,1,0,0,0
 access_shipping_auto_debit,access.shipping.auto.debit,model_shipping_auto_debit,ss_marketplace_import_order.marketplace_user,1,1,1,0
+access_marketplace_delivery,access.marketplace.delivery,model_marketplace_delivery,ss_marketplace_import_order.marketplace_user,1,1,1,0
+access_marketplace_delivery_line,access.marketplace.delivery.line,model_marketplace_delivery_line,ss_marketplace_import_order.marketplace_user,1,1,1,1
+access_marketplace_courier,marketplace.courier,model_marketplace_courier,ss_marketplace_import_order.marketplace_user,1,1,1,1
+access_marketplace_courier_count,marketplace.courier.count,model_marketplace_courier_count,ss_marketplace_import_order.marketplace_user,1,1,1,1
